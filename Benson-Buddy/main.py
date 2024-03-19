@@ -70,10 +70,11 @@ def chat():
   run = client.beta.threads.runs.create(thread_id=thread_id,
                                         assistant_id=assistant_id)
 
-  # Check if the Run requires action (function call)
+  # Check if the Run requires action (function call) -> continuously checks the status of the run
   while True:
     run_status = client.beta.threads.runs.retrieve(thread_id=thread_id,
                                                    run_id=run.id)
+    # Debugging line to show run status
     print(f"Run status: {run_status.status}")
     if run_status.status == 'completed':
       break
@@ -87,6 +88,6 @@ def chat():
   return jsonify({"response": response})
 
 
-# Run server
+# Run server if script is executed directly
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=8080)
