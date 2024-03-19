@@ -3,6 +3,8 @@ import os
 
 
 def create_assistant(client):
+  # Define path for assistant's configuration file
+  # Checking if the configuration file of assistant already exists
   assistant_file_path = 'assistant.json'
   if os.path.exists(assistant_file_path):
     with open(assistant_file_path, 'r') as file:
@@ -10,9 +12,10 @@ def create_assistant(client):
       assistant_id = assistant_data['assistant_id']
       print("Loaded existing assistant ID.")
   else:
+    # Create new file if configuration file doesn't exist
     file = client.files.create(file=open("Benson_Database.json", "rb"),
                                purpose='assistants')
-#Thorough breakdown of the bots purpose, persona, types of queries, creative recommendations and more. We tried to consider all forms of potential input and the desired output we want from the bot. Beyond a certain point we also realize that overfeeding the bot instructions didn't create that much of a difference so we had to ensure it wasn't too long either.
+    # Thorough breakdown of the bots purpose, persona, types of queries, creative recommendations and more. We tried to consider all forms of potential input and the desired output we want from the bot. Beyond a certain point we also realize that overfeeding the bot instructions didn't create that much of a difference so we had to ensure it wasn't too long either.
     assistant = client.beta.assistants.create(instructions="""
          The Bot’s Purpose:
          The assistant, Benson Buddy, has been programmed to provide meal suggestions based on our college cafeteria menu based on the user input. It should also be able to provide meal information and information regarding other Benson-related queries. The most important point is that the suggestions are based on user input.
@@ -50,10 +53,12 @@ def create_assistant(client):
                                               }],
                                               file_ids=[file.id])
 
+    # Save new assistant ID in configuration file
     with open(assistant_file_path, 'w') as file:
       json.dump({'assistant_id': assistant.id}, file)
       print("Created a new assistant and saved the ID.")
 
     assistant_id = assistant.id
 
+  #return assistants ID
   return assistant_id
