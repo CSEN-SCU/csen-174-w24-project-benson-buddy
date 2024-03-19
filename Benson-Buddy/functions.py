@@ -12,7 +12,7 @@ def create_assistant(client):
   else:
     file = client.files.create(file=open("Benson_Database.json", "rb"),
                                purpose='assistants')
-
+#Thorough breakdown of the bots purpose, persona, types of queries, creative recommendations and more. We tried to consider all forms of potential input and the desired output we want from the bot. Beyond a certain point we also realize that overfeeding the bot instructions didn't create that much of a difference so we had to ensure it wasn't too long either.
     assistant = client.beta.assistants.create(instructions="""
          The Bot’s Purpose:
          The assistant, Benson Buddy, has been programmed to provide meal suggestions based on our college cafeteria menu based on the user input. It should also be able to provide meal information and information regarding other Benson-related queries. The most important point is that the suggestions are based on user input.
